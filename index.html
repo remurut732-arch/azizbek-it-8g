@@ -5,100 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Азизбек — Лидерство в IT и AI | 8 «Г» класс</title>
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --border: #334155;
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
         }
         h1 {
-            color: #0056b3;
+            color: #60a5fa;
             text-align: center;
+            margin-bottom: 8px;
+            font-size: 26px;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        h3 {
+            color: var(--text-main);
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
         }
         .days-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            justify-content: center;
-            margin-bottom: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 480px) {
+            .days-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         .days-buttons button {
-            padding: 8px 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            padding: 12px;
+            background-color: #334155;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
         .days-buttons button:hover {
-            background-color: #0056b3;
+            background-color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
         }
         #scheduleResult {
-            background: #e9ecef;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            min-height: 80px;
         }
         form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-            border-top: 2px solid #eee;
-            padding-top: 20px;
+            gap: 14px;
+            border-top: 1px solid var(--border);
+            padding-top: 25px;
         }
         input, textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 14px;
+            background-color: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
         textarea {
             resize: vertical;
-            height: 80px;
+            height: 100px;
         }
         button[type="submit"] {
-            background-color: #28a745;
+            background-color: var(--success);
             color: white;
-            padding: 10px;
+            padding: 14px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
         }
         button[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #059669;
+            transform: translateY(-1px);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Азизбек — Лидерство в IT и AI</h1>
-        <p style="text-align: center;">Добро пожаловать на мой сайт кандидата в лидеры! Здесь вы найдете расписание 8 «Г» класса и сможете предложить свою идею.</p>
+        <h1>🚀 Азизбек — Лидерство в IT & AI</h1>
+        <p class="subtitle">Официальный сайт кандидата 8 «Г» класса. Узнай актуальное расписание уроков и предложи свою крутую идею для школы!</p>
 
-        <h3>📅 Расписание уроков (8 «Г»):</h3>
+        <h3>📅 Расписание уроков (8 «Г»)</h3>
         <div class="days-buttons">
+            <button onclick="showSchedule('mon')">Понедельник</button>
+            <button onclick="showSchedule('tue')">Вторник</button>
             <button onclick="showSchedule('wed')">Среда</button>
             <button onclick="showSchedule('thu')">Четверг</button>
             <button onclick="showSchedule('fri')">Пятница</button>
             <button onclick="showSchedule('sat')">Суббота</button>
         </div>
-        <div id="scheduleResult">👈 Выберите день недели в списке выше.</div>
+        <div id="scheduleResult">👆 Нажми на любой день недели выше, чтобы посмотреть расписание.</div>
 
-        <!-- Форма для сбора идей с подключенным Web3Forms и твоим ключом -->
+        <!-- Банк идей с Web3Forms -->
         <h3>💡 Банк идей</h3>
         <form action="https://api.web3forms.com/submit" method="POST" onsubmit="submitIdea(event)">
-            <!-- Скрытый ключ доступа для отправки писем на твою почту -->
             <input type="hidden" name="access_key" value="Af14912e-dd61-4d39-859e-d2bbbfd7ff11">
             
             <input type="text" id="studentName" name="name" placeholder="Твоё имя или класс" required>
@@ -111,9 +167,25 @@
     <script>
         function showSchedule(day) {
             const textDiv = document.getElementById('scheduleResult');
-            if (day === 'wed') {
+            if (day === 'mon') {
+                textDiv.innerHTML = "<strong>📅 Понедельник (8 «Г»):</strong><br>" +
+                    "1. Час будущего (Косимов М.Т.) | 08:00 - 08:45<br>" +
+                    "2. Физика (Мамадолимова Н.) | 08:50 - 09:35<br>" +
+                    "3. Черчение (Темирова М.З.) | 09:40 - 10:25<br>" +
+                    "4. Русский язык (Рахимова З.Б.) | 10:30 - 11:15<br>" +
+                    "5. Алгебра (Собиржонова К.М.) | 11:20 - 12:05<br>" +
+                    "6. Литература (Рахимова З.Б.) | 12:10 - 12:55";
+            } else if (day === 'tue') {
+                textDiv.innerHTML = "<strong>📅 Вторник (8 «Г»):</strong><br>" +
+                    "1. История Узбекистана (Холхожаева М.А.) | 08:00 - 08:45<br>" +
+                    "2. Узбекский язык (Ахмедова Д.А.) | 08:50 - 09:35<br>" +
+                    "3. Физкультура (Абдуллаханов М.) | 09:40 - 10:25<br>" +
+                    "4. Русский язык (Рахимова З.Б.) | 10:30 - 11:15<br>" +
+                    "5. Технология (Насиров Ф.М.) | 11:20 - 12:05<br>" +
+                    "6. Химия (Акбарова С.С.) | 12:10 - 12:55";
+            } else if (day === 'wed') {
                 textDiv.innerHTML = "<strong>📅 Среда (8 «Г»):</strong><br>" +
-                    "1. Инф. и ИКТ (Косимов М.Т., Кабинет 40) | 08:00 - 08:45<br>" +
+                    "1. Инф. и ИКТ (Косимов М.Т., Каб. 40) | 08:00 - 08:45<br>" +
                     "2. Узбекский язык (Шамшидинова Г.Э.) | 08:50 - 09:35<br>" +
                     "3. Физкультура (Абдуллаханов М.) | 09:40 - 10:25<br>" +
                     "4. Английский язык (Кулдашева М.Ф.) | 10:30 - 11:15<br>" +
@@ -126,8 +198,7 @@
                     "3. География (Абдуганиев Б.Х.) | 09:40 - 10:25<br>" +
                     "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +
                     "5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +
-                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";
-            } else if (day === 'fri') {
+                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";} else if (day === 'fri') {
                 textDiv.innerHTML = "<strong>📅 Пятница (8 «Г»):</strong><br>" +
                     "1. Английский язык (Кулдашева М.Ф.) | 08:00 - 08:45<br>" +
                     "2. Химия (Акбарова С.С.) | 08:50 - 09:35<br>" +
@@ -137,12 +208,10 @@
             } else if (day === 'sat') {
                 textDiv.innerHTML = "<strong>📅 Суббота (8 «Г»):</strong><br>" +
                     "1. Английский язык (Мамажонова Н.Б.) | 08:00 - 08:45<br>" +
-                    "2. Физкультура (Абдуллаханов М.) | 08:50 - 09:35<br>" +
-                    "3. Английский язык (Кулдашева М.Ф.) | 09:40 - 10:25<br>" +
+                    "2. Воспитание (Мамадалиева У.А.) | 08:50 - 09:35<br>" +
+                    "3. Геометрия (Собиржонова К.М.) | 09:40 - 10:25<br>" +
                     "4. География (Абдуганиев Б.Х.) | 10:30 - 11:15<br>" +
                     "5. Всеобщая история (Холхожаева М.А.) | 11:20 - 12:05";
-            } else {
-                textDiv.innerHTML = "👈 Выберите день недели в списке выше.";
             }
         }
 
@@ -154,120 +223,6 @@
             document.getElementById('studentIdea').value = '';
         }
     </script>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Азизбек — Лидерство в IT и AI | 8 «Г» класс</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-        }
-        h1 {
-            color: #1a73e8;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #5f6368;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        .days-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .days-buttons button {
-            padding: 10px 14px;
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .days-buttons button:hover {
-            background-color: #1557b0;
-        }
-        #scheduleResult {
-            background: #f8f9fa;
-            border-left: 4px solid #1a73e8;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border-top: 2px solid #f1f3f4;
-            padding-top: 20px;
-        }
-        h3 {
-            color: #202124;
-            margin-bottom: 10px;
-        }
-        input, textarea {
-            padding: 12px;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-        input:focus, textarea:focus {
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
-        }
-        textarea {
-            resize: vertical;
-            height: 90px;
-        }
-        button[type="submit"] {
-            background-color: #34a853;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button[type="submit"]:hover {
-            background-color: #2e8b46;
-        }
-    </style>
-</head>
-<body>
 
-    <div class="container">
-        <h1>Азизбек — Лидерство в IT и AI</h1>
-        <p class="subtitle">Добро пожаловать на мой официальный сайт кандидата! Ознакомьтесь с актуальным расписанием 8 «Г» класса и отправьте свою идею для улучшения нашей школы.</p>
-
-        <h3>📅 Расписание уроков (8 «Г»):</h3>
-        <div class="days-buttons">
-            <button onclick="showSchedule('mon')">Понедельник</button>
-            <button onclick="showSchedule('tue')">Вторник</button>
-            <button onclick="show
 </body>
 </html>
