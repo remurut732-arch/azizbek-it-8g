@@ -11,7 +11,6 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #3b82f6;
-            --accent-hover: #2563eb;
             --success: #10b981;
             --border: #334155;
         }
@@ -32,7 +31,7 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border);
         }
         h1 {
@@ -152,17 +151,16 @@
         </div>
         <div id="scheduleResult">👆 Нажми на любой день недели выше, чтобы посмотреть расписание.</div>
 
-        <!-- Банк идей с реальной отправкой через Web3Forms -->
+        <!-- Банк идей -->
         <h3>💡 Банк идей</h3>
-        <form action="https://api.web3forms.com/submit" method="POST">
-            <!-- Скрытый ключ доступа -->
+        <form id="ideaForm" onsubmit="sendIdea(event)">
             <input type="hidden" name="access_key" value="Af14912e-dd61-4d39-859e-d2bbbfd7ff11">
             
-            <input type="text" name="name" placeholder="Твоё имя или класс" required>
-            <input type="email" name="email" placeholder="Твой email (например, remurut732@gmail.com)" required>
-            <textarea name="message" placeholder="Опиши свою идею для школы..." required></textarea>
+            <input type="text" id="studentName" name="name" placeholder="Твоё имя или класс" required>
+            <input type="email" id="studentEmail" name="email" placeholder="Твой email (например, remurut732@gmail.com)" required>
+            <textarea id="studentIdea" name="message" placeholder="Опиши свою идею для школы..." required></textarea>
             
-            <button type="submit">Отправить идею</button>
+            <button type="submit" id="submitBtn">Отправить идею</button>
         </form>
     </div>
 
@@ -198,8 +196,8 @@
                     "1. Инф. и ИКТ (Косимова З.М.) | 08:00 - 08:45<br>" +
                     "2. Алгебра (Собиржонова К.М.) | 08:50 - 09:35<br>" +
                     "3. География (Абдуганиев Б.Х.) | 09:40 - 10:25<br>" +
-                    "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +"5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +
-                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";
+                    "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +
+                    "5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +"6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";
             } else if (day === 'fri') {
                 textDiv.innerHTML = "<strong>📅 Пятница (8 «Г»):</strong><br>" +
                     "1. Английский язык (Кулдашева М.Ф.) | 08:00 - 08:45<br>" +
@@ -215,6 +213,36 @@
                     "4. География (Абдуганиев Б.Х.) | 10:30 - 11:15<br>" +
                     "5. Всеобщая история (Холхожаева М.А.) | 11:20 - 12:05";
             }
+        }
+
+        function sendIdea(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = "Отправка...";
+            btn.disabled = true;
+
+            const formData = new FormData(document.getElementById('ideaForm'));
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Спасибо, " + document.getElementById('studentName').value + "! Твоя идея успешно отправлена Азизбеку.");
+                    document.getElementById('ideaForm').reset();
+                } else {
+                    alert("Ошибка отправки: " + data.message);
+                }
+                btn.textContent = "Отправить идею";
+                btn.disabled = false;
+            })
+            .catch(error => {
+                alert("Ошибка сети. Проверь подключение к интернету.");
+                btn.textContent = "Отправить идею";
+                btn.disabled = false;
+            });
         }
     </script>
 
