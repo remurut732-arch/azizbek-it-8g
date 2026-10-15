@@ -154,6 +154,120 @@
             document.getElementById('studentIdea').value = '';
         }
     </script>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Азизбек — Лидерство в IT и AI | 8 «Г» класс</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #5f6368;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .days-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .days-buttons button {
+            padding: 10px 14px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .days-buttons button:hover {
+            background-color: #1557b0;
+        }
+        #scheduleResult {
+            background: #f8f9fa;
+            border-left: 4px solid #1a73e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 2px solid #f1f3f4;
+            padding-top: 20px;
+        }
+        h3 {
+            color: #202124;
+            margin-bottom: 10px;
+        }
+        input, textarea {
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+        input:focus, textarea:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+        textarea {
+            resize: vertical;
+            height: 90px;
+        }
+        button[type="submit"] {
+            background-color: #34a853;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #2e8b46;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <h1>Азизбек — Лидерство в IT и AI</h1>
+        <p class="subtitle">Добро пожаловать на мой официальный сайт кандидата! Ознакомьтесь с актуальным расписанием 8 «Г» класса и отправьте свою идею для улучшения нашей школы.</p>
+
+        <h3>📅 Расписание уроков (8 «Г»):</h3>
+        <div class="days-buttons">
+            <button onclick="showSchedule('mon')">Понедельник</button>
+            <button onclick="showSchedule('tue')">Вторник</button>
+            <button onclick="show
 </body>
 </html>
