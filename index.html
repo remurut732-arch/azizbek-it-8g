@@ -152,13 +152,15 @@
         </div>
         <div id="scheduleResult">👆 Нажми на любой день недели выше, чтобы посмотреть расписание.</div>
 
-        <!-- Банк идей с Web3Forms -->
+        <!-- Банк идей с реальной отправкой через Web3Forms -->
         <h3>💡 Банк идей</h3>
-        <form action="https://api.web3forms.com/submit" method="POST" onsubmit="submitIdea(event)">
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <!-- Скрытый ключ доступа -->
             <input type="hidden" name="access_key" value="Af14912e-dd61-4d39-859e-d2bbbfd7ff11">
             
-            <input type="text" id="studentName" name="name" placeholder="Твоё имя или класс" required>
-            <textarea id="studentIdea" name="message" placeholder="Опиши свою идею для школы..." required></textarea>
+            <input type="text" name="name" placeholder="Твоё имя или класс" required>
+            <input type="email" name="email" placeholder="Твой email (например, remurut732@gmail.com)" required>
+            <textarea name="message" placeholder="Опиши свою идею для школы..." required></textarea>
             
             <button type="submit">Отправить идею</button>
         </form>
@@ -196,9 +198,9 @@
                     "1. Инф. и ИКТ (Косимова З.М.) | 08:00 - 08:45<br>" +
                     "2. Алгебра (Собиржонова К.М.) | 08:50 - 09:35<br>" +
                     "3. География (Абдуганиев Б.Х.) | 09:40 - 10:25<br>" +
-                    "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +
-                    "5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +
-                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";} else if (day === 'fri') {
+                    "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +"5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +
+                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";
+            } else if (day === 'fri') {
                 textDiv.innerHTML = "<strong>📅 Пятница (8 «Г»):</strong><br>" +
                     "1. Английский язык (Кулдашева М.Ф.) | 08:00 - 08:45<br>" +
                     "2. Химия (Акбарова С.С.) | 08:50 - 09:35<br>" +
@@ -213,14 +215,6 @@
                     "4. География (Абдуганиев Б.Х.) | 10:30 - 11:15<br>" +
                     "5. Всеобщая история (Холхожаева М.А.) | 11:20 - 12:05";
             }
-        }
-
-        function submitIdea(event) {
-            event.preventDefault();
-            const name = document.getElementById('studentName').value;
-            alert("Спасибо, " + name + "! Твоя идея успешно отправлена Азизбеку.");
-            document.getElementById('studentName').value = '';
-            document.getElementById('studentIdea').value = '';
         }
     </script>
 
