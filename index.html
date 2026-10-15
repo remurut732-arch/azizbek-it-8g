@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выборы 2026 | IT & AI — Азизбек (8 «Г»)</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            padding-bottom: 50px;
+        }
+
+        header { 
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); 
+            color: white; 
+            padding: 50px 20px; 
+            text-align: center; 
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
+        }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 800; }
+        header p { font-size: 1.2em; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+        .card { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); 
+            margin-bottom: 30px; 
+        }
+        
+        .card h2 { 
+            color: var(--primary); 
+            margin-bottom: 20px; 
+            font-size: 1.4em; 
+            border-bottom: 2px solid #f1f5f9; 
+            padding-bottom: 12px; 
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .feature-item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        .feature-item h3 { font-size: 1.1em; margin-bottom: 8px; color: #334155; }
+        .feature-item p { font-size: 0.95em; color: var(--text-muted); }
+
+        /* Расписание */
+        .schedule-select { 
+            padding: 14px; 
+            font-size: 16px; 
+            border-radius: 10px; 
+            border: 2px solid #e2e8f0; 
+            width: 100%; 
+            margin-bottom: 20px; 
+            background: #fff;
+            outline: none;
+        }
+        
+        .schedule-info { 
+            background: #f0fdf4; 
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            padding: 20px; 
+            border-radius: 12px; 
+            font-size: 1.05em; 
+        }
+
+        /* Форма */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95em; }
+        input, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 10px; 
+            font-size: 15px; 
+            outline: none; 
+        }
+        input:focus, textarea:focus { border-color: var(--primary); }
+        
+        button { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 600; 
+            width: 100%;
+            transition: background 0.2s;
+        }
+        button:hover { background: var(--primary-hover); }
+
+        footer { text-align: center; color: var(--text-muted); font-size: 0.9em; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Школа Будущего: IT & AI 🚀</h1>
+        <p>Кандидат в лидеры направления: Азизбек (8 «Г» класс)</p>
+    </header>
+
+    <div class="container">
+        <!-- Блок о программе -->
+        <div class="card">
+            <h2>🎯 Моя предвыборная программа</h2>
+            <p>Привет! Меня зовут Азизбек, я учусь в 8 «Г» классе и баллотируюсь по направлению «IT и искусственный интеллект». Я хочу сделать нашу школу удобнее с помощью современных технологий.</p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>🤖 Умный расписания-портал</h3>
+                    <p>Быстрый доступ к актуальному расписанию 8 «Г» класса в пару кликов.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💡 Банк идей</h3>
+                    <p>Платформа, где каждый ученик может предложить идею по улучшению нашей школы.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок расписания -->
+        <div class="card">
+            <h2>📅 Расписание 8 «Г» класса</h2>
+            <p>Выберите день недели, чтобы посмотреть уроки и преподавателей:</p>
+            <br>
+            <select class="schedule-select" id="daySelect" onchange="showSchedule()">
+                <option value="">-- Выберите день недели --</option>
+                <option value="mon">Понедельник</option>
+                <option value="tue">Вторник</option>
+                <option value="wed">Среда</option>
+                <option value="thu">Четверг</option>
+                <option value="fri">Пятница</option>
+                <option value="sat">Суббота</option>
+            </select>
+            <div class="schedule-info" id="scheduleText">
+                👈 Выберите день недели в списке выше.
+            </div>
+        </div>
+
+        <!-- Блок предложений -->
+        <div class="card">
+            <h2>💬 Предложи идею для школы</h2>
+            <p>Есть идея, как улучшить школу или учебу? Напиши её сюда:</p>
+            <br>
+            <form onsubmit="submitIdea(event)">
+                <div class="form-group">
+                    <label for="studentName">Твоё имя и класс:</label>
+                    <input type="text" id="studentName" placeholder="Например: Сардор, 8 «Г»" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentIdea">Твоя идея:</label>
+                    <textarea id="studentIdea" rows="4" placeholder="Опиши свою идею..." required></textarea>
+                </div>
+                <button type="submit">Отправить идею Азизбеку</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Школьные выборы. Кандидат: Азизбек (8 «Г»).</p>
+    </footer>
+
+    <script>
+        function showSchedule() {
+            const select = document.getElementById('daySelect');
+            const textDiv = document.getElementById('scheduleText');
+            const day = select.value;
+            
+            if (day === 'mon') {
+                textDiv.innerHTML = "<strong>📅 Понедельник (8 «Г»):</strong><br>" +
+                    "1. Час будущего (Косимов М.Т.) | 08:00 - 08:45<br>" +
+                    "2. Физика (Мамадолимова Н.) | 08:50 - 09:35<br>" +
+                    "3. Черчение (Темирова М.З.) | 09:40 - 10:25<br>" +
+                    "4. Русский язык (Рахимова З.Б.) | 10:30 - 11:15<br>" +
+                    "5. Алгебра (Собиржонова К.М.) | 11:20 - 12:05<br>" +
+                    "6. Литература (Рахимова З.Б.) | 12:10 - 12:55";
+            } else if (day === 'tue') {
+                textDiv.innerHTML = "<strong>📅 Вторник (8 «Г»):</strong><br>" +
+                    "1. История Узбекистана (Холхожаева М.А.) | 08:00 - 08:45<br>" +
+                    "2. Узбекский язык (Ахмедова Д.А.) | 08:50 - 09:35<br>" +
+                    "3. Физкультура (Абдуллаханов М.) | 09:40 - 10:25<br>" +
+                    "4. Русский язык (Рахимова З.Б.) | 10:30 - 11:15<br>" +
+                    "5. Технология (Насиров Ф.М.) | 11:20 - 12:05<br>" +
+                    "6. Химия (Акбарова С.С.) | 12:10 - 12:55";} else if (day === 'wed') {
+                textDiv.innerHTML = "<strong>📅 Среда (8 «Г»):</strong><br>" +
+                    "1. Инф. и ИКТ (Косимов М.Т., Кабинет 40) | 08:00 - 08:45<br>" +
+                    "2. Узбекский язык (Шамшидинова Г.Э.) | 08:50 - 09:35<br>" +
+                    "3. Физкультура (Абдуллаханов М.) | 09:40 - 10:25<br>" +
+                    "4. Английский язык (Кулдашева М.Ф.) | 10:30 - 11:15<br>" +
+                    "5. Технология (Содикова Д.С.) | 11:20 - 12:05<br>" +
+                    "6. Право (Собиров И.Б.) | 12:10 - 12:55";
+            } else if (day === 'thu') {
+                textDiv.innerHTML = "<strong>📅 Четверг (8 «Г»):</strong><br>" +
+                    "1. Инф. и ИКТ (Косимова З.М.) | 08:00 - 08:45<br>" +
+                    "2. Алгебра (Собиржонова К.М.) | 08:50 - 09:35<br>" +
+                    "3. География (Абдуганиев Б.Х.) | 09:40 - 10:25<br>" +
+                    "4. Английский язык (Мамажонова Н.Б.) | 10:30 - 11:15<br>" +
+                    "5. Биология (Рахимова С.М.) | 11:20 - 12:05<br>" +
+                    "6. Геометрия (Собиржонова К.М.) | 12:10 - 12:55";
+            } else if (day === 'fri') {
+                textDiv.innerHTML = "<strong>📅 Пятница (8 «Г»):</strong><br>" +
+                    "1. Английский язык (Кулдашева М.Ф.) | 08:00 - 08:45<br>" +
+                    "2. Химия (Акбарова С.С.) | 08:50 - 09:35<br>" +
+                    "3. История Узбекистана (Холхожаева М.А.) | 09:40 - 10:25<br>" +
+                    "4. Физика (Мамадолимова Н.) | 10:30 - 11:15<br>" +
+                    "5. Алгебра (Собиржонова К.М.) | 11:20 - 12:05";
+            } else if (day === 'sat') {
+                textDiv.innerHTML = "<strong>📅 Суббота (8 «Г»):</strong><br>" +
+                    "1. Английский язык (Мамажонова Н.Б.) | 08:00 - 08:45<br>" +
+                    "2. Физкультура (Абдуллаханов М.) | 08:50 - 09:35<br>" +
+                    "3. Английский язык (Кулдашева М.Ф.) | 09:40 - 10:25<br>" +
+                    "4. География (Абдуганиев Б.Х.) | 10:30 - 11:15<br>" +
+                    "5. Всеобщая история (Холхожаева М.А.) | 11:20 - 12:05";
+            } else {
+                textDiv.innerHTML = "👈 Выберите день недели в списке выше.";
+            }
+        }
+
+        function submitIdea(event) {
+            event.preventDefault();
+            const name = document.getElementById('studentName').value;
+            alert("Спасибо, " + name + "! Твоя идея успешно отправлена Азизбеку.");
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentIdea').value = '';
+        }
+    </script>
+
+</body>
+</html><<input type="hidden" name="access_key" value="Af14912e-dd61-4d39-859e-d2bbbfd7ff11">
