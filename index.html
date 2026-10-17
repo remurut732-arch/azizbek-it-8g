@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Overload | Cyber Clicker</title>
+    <title>CyberCore | Neural Overload</title>
     <style>
         :root {
             --bg-color: #05050a;
             --panel-bg: #0f172a;
             --accent: #00ff66;
-            --accent-glow: rgba(0, 255, 102, 0.4);
+            --accent-glow: rgba(0, 255, 102, 0.3);
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --border: #1e293b;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -34,59 +36,79 @@
             border-radius: 12px;
             padding: 20px;
             box-sizing: border-box;
-            text-align: center;
         }
         h1 {
             color: var(--accent);
-            font-size: 22px;
+            font-size: 20px;
             margin-top: 0;
+            text-align: center;
             text-shadow: 0 0 10px var(--accent-glow);
+        }
+        .rank-title {
+            text-align: center;
+            font-size: 13px;
+            color: var(--warning);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .stats {
             background: #030712;
             border: 1px solid var(--border);
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .stats p {
-            margin: 5px 0;
-            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
         }
         .data-display {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: var(--accent);
+            margin: 5px 0;
         }
-        /* Большая кнопка хака */
+        /* Главная кнопка */
         #hackBtn {
             width: 100%;
-            height: 120px;
+            height: 100px;
             background: linear-gradient(135deg, #064e3b, #022c22);
             border: 2px solid var(--accent);
             color: var(--accent);
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             font-family: 'Courier New', Courier, monospace;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 0 15px var(--accent-glow);
-            transition: all 0.1s ease;
-            margin-bottom: 20px;
+            transition: all 0.08s ease;
+            margin-bottom: 15px;
         }
         #hackBtn:active {
-            transform: scale(0.96);
+            transform: scale(0.97);
             background: linear-gradient(135deg, #022c22, #064e3b);
         }
+        /* Консоль логов */
+        .console-log {
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 11px;
+            color: #38bdf8;
+            height: 45px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        /* Магазин */
         .shop-section {
             border-top: 1px solid var(--border);
-            padding-top: 15px;
-            text-align: left;
+            padding-top: 12px;
         }
         .shop-title {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text-muted);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
         .upgrade-btn {
@@ -94,12 +116,12 @@
             background: #1e293b;
             color: var(--text-main);
             border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            margin-bottom: 8px;
+            font-size: 12px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -110,83 +132,124 @@
             border-color: var(--accent);
         }
         .upgrade-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
+        }
+        .upgrade-info {
+            text-align: right;
+            font-size: 11px;
+            color: var(--warning);
         }
     </style>
 </head>
 <body>
 
     <div class="game-container">
-        <h1>[ NEURAL OVERLOAD ]</h1>
+        <h1>[ CYBERCORE : OVERLOAD ]</h1>
+        <div class="rank-title" id="rankText">Ранг: Скрипт-кидди</div>
         
         <div class="stats">
-            <p>Добыто данных:</p>
+            <div style="font-size: 12px; color: var(--text-muted);">БАЗА ДАННЫХ:</div>
             <div class="data-display"><span id="dataCount">0</span> БАЙТ</div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Скорость: +<span id="cpsCount">0</span> байт/сек</p>
+            <div style="font-size: 11px; color: var(--text-muted);">Скорость добычи: +<span id="cpsCount">0</span> байт/сек</div>
         </div>
 
-        <!-- Основная кнопка клика -->
-        <button id="hackBtn" onclick="collectData()">ВЗЛОМАТЬ СЕРВЕР</button>
+        <button id="hackBtn" onclick="collectData()">⚡ ВЗЛОМАТЬ СЕРВЕР (+1)</button>
 
-        <!-- Магазин апгрейдов -->
+        <!-- Лог терминала -->
+        <div class="console-log" id="consoleLog">
+            > Система инициализирована. Ожидание команд...
+        </div>
+
+        <!-- Магазин расширенной прокачки -->
         <div class="shop-section">
-            <div class="shop-title">Апгрейды сети:</div>
+            <div class="shop-title">Модули взлома и апгрейды:</div>
             
             <button class="upgrade-btn" id="up1" onclick="buyUpgrade(1)">
-                <span>🤖 Бот-паук (+1/сек)</span>
-                <span id="cost1">15 байт</span>
+                <span>🤖 Авто-скрипт (+1/сек)</span>
+                <span class="upgrade-info" id="info1">15 Б<br>Куплено: 0</span>
             </button>
             
             <button class="upgrade-btn" id="up2" onclick="buyUpgrade(2)">
-                <span>⚡ Квантовый чип (+5/сек)</span>
-                <span id="cost2">100 байт</span>
+                <span>🌐 Ботнет-сеть (+6/сек)</span>
+                <span class="upgrade-info" id="info2">100 Б<br>Куплено: 0</span>
+            </button>
+
+            <button class="upgrade-btn" id="up3" onclick="buyUpgrade(3)">
+                <span>🛰️ Квантовый узел (+30/сек)</span>
+                <span class="upgrade-info" id="info3">550 Б<br>Куплено: 0</span>
+            </button>
+
+            <button class="upgrade-btn" id="up4" onclick="buyUpgrade(4)">
+                <span>🧠 ИИ-автопилот (+150/сек)</span>
+                <span class="upgrade-info" id="info4">2500 Б<br>Куплено: 0</span>
             </button>
         </div>
     </div>
 
     <script>
         let data = 0;
-        let cps = 0; // байт в секунду
+        let cps = 0; 
+        let clickPower = 1;
 
-        // Цены и прирост улучшений
+        // Конфигурация улучшений
         let upgrades = {
-            1: { cost: 15, power: 1, count: 0, costMultiplier: 1.15 },
-            2: { cost: 100, power: 5, count: 0, costMultiplier: 1.20 }
+            1: { cost: 15, power: 1, count: 0, mult: 1.15, name: "Авто-скрипт" },
+            2: { cost: 100, power: 6, count: 0, mult: 1.18, name: "Ботнет-сеть" },
+            3: { cost: 550, power: 30, count: 0, mult: 1.20, name: "Квантовый узел" },
+            4: { cost: 2500, power: 150, count: 0, mult: 1.22, name: "ИИ-автопилот" }
         };
 
-        // Клик по кнопке взлома
+        const logs = [
+            "Пакет данных успешно перехвачен...",
+            "Сканирование портов корпорации завершено...",
+            "Обход защитного файрвола выполнен...",
+            "Обнаружена уязвимость в подсистеме...",
+            "Синхронизация квантовых потоков..."
+        ];
+
         function collectData() {
-            data += 1;
+            data += clickPower;
             updateDisplay();
+            
+            // Шанс показать рандомный лог
+            if (Math.random() < 0.3) {
+                const randomLog = logs[Math.floor(Math.random() * logs.length)];
+                document.getElementById('consoleLog').innerText = "> " + randomLog;
+            }
         }
 
-        // Покупка улучшений
         function buyUpgrade(id) {
             let up = upgrades[id];
             if (data >= up.cost) {
                 data -= up.cost;
                 cps += up.power;
                 up.count += 1;
-                up.cost = Math.floor(up.cost * up.costMultiplier);
+                data = Math.floor(data);
+                up.cost = Math.floor(up.cost * up.mult);
+                
+                document.getElementById('consoleLog').innerText = "> Установлен модуль: " + up.name;
                 updateDisplay();
             }
         }
 
-        // Обновление интерфейса
         function updateDisplay() {
-            document.getElementById('dataCount').innerText = data;
-            document.getElementById('cpsCount').innerText = cps;
+            document.getElementById('dataCount').innerText = data.toLocaleString();document.getElementById('cpsCount').innerText = cps.toLocaleString();
             
-            document.getElementById('cost1').innerText = upgrades[1].cost + ' байт';
-            document.getElementById('cost2').innerText = upgrades[2].cost + ' байт';
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('info' + i).innerHTML = upgrades[i].cost.toLocaleString() + ' Б<br>Куплено: ' + upgrades[i].count;
+                document.getElementById('up' + i).disabled = data < upgrades[i].cost;
+            }
 
-            // Блокировка кнопок, если не хватает байт
-            document.getElementById('up1').disabled = data < upgrades[1].cost;
-            document.getElementById('up2').disabled = data < upgrades[2].cost;
+            // Динамические ранги
+            let rank = "Скрипт-кидди";
+            if (data >= 5000) rank = "Элитный хакер";
+            if (data >= 25000) rank = "Кибер-архитектор";
+            if (data >= 100000) rank = "Искусственный Интеллект (GOD MODE)";
+            document.getElementById('rankText').innerText = "Ранг: " + rank;
         }
 
-        // Автоматический сбор данных каждую секунду (пассивный доход)
+        // Пассивный доход каждую секунду
         setInterval(function() {
             if (cps > 0) {
                 data += cps;
