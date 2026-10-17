@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBERCORE: Neural Protocol v2.5</title>
+    <title>CYBERCORE: Neural Protocol v3.0</title>
     <style>
         :root {
             --bg-color: #030712;
@@ -20,6 +20,7 @@
         * {
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -42,10 +43,9 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 92vh;
-            max-height: 850px;
+            height: 94vh;
+            max-height: 880px;
         }
-        /* Шапка */
         .header {
             background: #020617;
             padding: 12px;
@@ -66,7 +66,6 @@
             color: var(--text-muted);
             margin-top: 6px;
         }
-        /* Навигация по вкладкам */
         .nav-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -89,7 +88,6 @@
             border-bottom: 2px solid var(--accent);
             background: rgba(0, 255, 102, 0.05);
         }
-        /* Контент вкладок */
         .tab-content {
             flex: 1;
             overflow-y: auto;
@@ -99,47 +97,43 @@
         .tab-content.active {
             display: block;
         }
-        /* Элементы интерфейса кликера */
         .resource-card {
             background: #020617;
             border: 1px solid var(--panel-border);
             border-radius: 10px;
             padding: 12px;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .data-value {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: var(--accent);
             margin: 4px 0;
             text-shadow: 0 0 10px var(--accent-glow);
         }
-        .terminal-btn {
-            width: 100%;
-            height: 110px;
-            background: linear-gradient(135deg, #064e3b, #022c22);
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            font-size: 16px;
-            font-weight: bold;
-            font-family: 'Courier New', Courier, monospace;
+        .server-terminal {
+            background: #020617;
+            border: 2px solid var(--cyan);
             border-radius: 12px;
+            padding: 15px;
+            text-align: center;
             cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-glow);
-            transition: all 0.08s ease;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+            transition: transform 0.05s ease, background 0.1s;
             margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
         }
-        .terminal-btn:active {
+        .server-terminal:active {
             transform: scale(0.96);
-            background: linear-gradient(135deg, #022c22, #064e3b);
+            background: #082f49;
         }
-        /* Консоль логов */
+        .server-ascii {
+            font-size: 13px;
+            color: var(--cyan);
+            line-height: 1.2;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
         .console-box {
             background: #000;
             border: 1px solid var(--panel-border);
@@ -147,11 +141,10 @@
             padding: 10px;
             font-size: 11px;
             color: var(--cyan);
-            height: 70px;
-            overflow-y: hidden;
-            margin-bottom: 15px;
+            height: 75px;
+            overflow-y: auto;
+            margin-bottom: 12px;
         }
-        /* Списки магазинов и апгрейдов */
         .shop-item {
             background: #0b0f19;
             border: 1px solid var(--panel-border);
@@ -164,7 +157,7 @@
         }
         .shop-info h4 {
             margin: 0 0 3px 0;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-main);
         }
         .shop-info p {
@@ -193,7 +186,6 @@
             color: var(--text-muted);
             cursor: not-allowed;
         }
-        /* Профиль и выбор аватара */
         .avatar-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -226,49 +218,47 @@
             outline: none;
         }
     </style>
-</head>
-<body>
-
+</head<body>
     <div class="app-container">
-        <!-- Шапка -->
         <div class="header">
             <h1>[ CYBERCORE OS ]</h1>
             <div class="status-bar">
                 <span id="playerCallsign">Оператор: [Phantom]</span>
-                <span id="headerIp">IP: 192.168.1.104</span>
+                <span>SEC-LEVEL: 01</span>
             </div>
         </div>
 
-        <!-- Навигация -->
         <div class="nav-tabs">
-            <button class="nav-btn active" onclick="switchTab('terminal', event)">Терминал</button>
-            <button class="nav-btn" onclick="switchTab('shop', event)">Апгрейды</button>
-            <button class="nav-btn" onclick="switchTab('bases', event)">Серверы</button>
-            <button class="nav-btn" onclick="switchTab('profile', event)">Профиль</button>
+            <button class="nav-btn active" id="nav-terminal" onclick="switchTab('terminal')">Терминал</button>
+            <button class="nav-btn" id="nav-shop" onclick="switchTab('shop')">Апгрейды</button>
+            <button class="nav-btn" id="nav-bases" onclick="switchTab('bases')">Серверы</button>
+            <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">Профиль</button>
         </div>
 
-        <!-- ВКЛАДКА 1: ТЕРМИНАЛ -->
-        <div id="terminal" class="tab-content active">
-            <div class="resource-card"><div style="font-size: 11px; color: var(--text-muted);">НАКОПЛЕННЫЕ ДАННЫЕ:</div>
+        <div id="tab-terminal" class="tab-content active">
+            <div class="resource-card">
+                <div style="font-size: 11px; color: var(--text-muted);">НАКОПЛЕННЫЕ ДАННЫЕ:</div>
                 <div class="data-value"><span id="dataCount">0</span> БАЙТ</div>
-                <div style="font-size: 11px; color: var(--warning);">Прирост: +<span id="cpsCount">0</span> байт/сек</div>
+                <div style="font-size: 11px; color: var(--warning);">Поток: +<span id="cpsCount">0</span> байт/сек</div>
             </div>
 
-            <button class="terminal-btn" onclick="collectData()">
-                <span>⚡ ВЫПОЛНИТЬ ВЗЛОМ</span>
-                <span style="font-size: 11px; opacity: 0.8;" id="clickPowerText">+1 байт за клик</span>
-            </button>
+            <div class="server-terminal" onclick="collectData()">
+                <div class="server-ascii" id="serverVisual">
+  [=== SERVER ACTIVE ===]<br>
+  [ □□□□□□□□□□□□□ ]<br>
+  👉 НАЖМИ ДЛЯ ВЗЛОМА 👈
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted);" id="clickPowerText">Сила клика: +1 байт</div>
+            </div>
 
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">СИСТЕМНЫЙ ЛОГ:</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">СИСТЕМНЫЙ ЖУРНАЛ:</div>
             <div class="console-box" id="consoleLog">
-                > Инициализация защищенного соединения...<br>
-                > Добро пожаловать в систему, оператор.
+                > Ядро инициализировано.<br>> Ожидание действий оператора...
             </div>
         </div>
 
-        <!-- ВКЛАДКА 2: АПГРЕЙДЫ -->
-        <div id="shop" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">МОДУЛИ И СКРИПТЫ ВЗЛОМА:</div>
+        <div id="tab-shop" class="tab-content">
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">МОДУЛИ И СКРИПТЫ:</div>
             
             <div class="shop-item">
                 <div class="shop-info">
@@ -312,9 +302,8 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА 3: СЕРВЕРЫ И БАЗЫ -->
-        <div id="bases" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">АРЕНДА И ПОКУПКА СЕРВЕРОВ:</div>
+        <div id="tab-bases" class="tab-content">
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">АРЕНДА И ПОКУПКА УЗЛОВ:</div>
             
             <div class="shop-item">
                 <div class="shop-info">
@@ -341,25 +330,24 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА 4: ПРОФИЛЬ И НАСТРОЙКИ -->
-        <div id="profile" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 8px;">ВЫБЕРИТЕ ПОЗЫВНОЙ (АВАТАР):</div>
+        <div id="tab-profile" class="tab-content">
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 8px;">ВЫБЕРИТЕ ПОЗЫВНОЙ:</div>
             <div class="avatar-grid">
-                <div class="avatar-card selected" id="av1" onclick="setAvatar('Phantom')">
+                <div class="avatar-card selected" id="av1" onclick="setAvatar('Phantom', this)">
                     <div style="font-size: 18px;">👤</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Phantom</div>
+                    <div style="font-size: 11px; margin-top: 4px;">Phantom</div>
                 </div>
-                <div class="avatar-card" id="av2" onclick="setAvatar('Neon Ghost')">
+                <div class="avatar-card" id="av2" onclick="setAvatar('Neon Ghost', this)">
                     <div style="font-size: 18px;">👻</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Neon Ghost</div>
+                    <div style="font-size: 11px; margin-top: 4px;">Neon Ghost</div>
                 </div>
-                <div class="avatar-card" id="av3" onclick="setAvatar('Zero One')">
+                <div class="avatar-card" id="av3" onclick="setAvatar('Zero One', this)">
                     <div style="font-size: 18px;">🤖</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Zero One</div>
+                    <div style="font-size: 11px; margin-top: 4px;">Zero One</div>
                 </div>
-                <div class="avatar-card" id="av4" onclick="setAvatar('Cyber Lord')">
+                <div class="avatar-card" id="av4" onclick="setAvatar('Cyber Lord', this)">
                     <div style="font-size: 18px;">⚡</div>
-                    <div style="font-size: 12px; margin-top: 4px;">Cyber Lord</div>
+                    <div style="font-size: 11px; margin-top: 4px;">Cyber Lord</div>
                 </div>
             </div>
 
@@ -374,13 +362,11 @@
 
             <div class="resource-card" style="margin-top: 15px; text-align: left; font-size: 11px;">
                 <p><strong>Статистика оператора:</strong></p>
-                <p>Текущий ранг: <span id="rankDisplay" style="color: var(--warning);">Скрипт-кидди</span></p>
+                <p>Текущий титул: <span id="rankDisplay" style="color: var(--warning);">Скрипт-кидди</span></p>
                 <p>Всего добыто: <span id="totalMined">0</span> байт</p>
             </div>
         </div>
-    </div>
-
-    <script>
+    </div><script>
         let data = 0;
         let totalMined = 0;
         let cps = 0;
@@ -409,21 +395,27 @@
             "Синхронизация квантовых узлов стабильна..."
         ];
 
-        function switchTab(tabId, event) {
+        function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('nav-' + tabName).classList.add('active');
         }
 
         function collectData() {
             data += clickPower;
             totalMined += clickPower;
-            updateDisplay();if (Math.random() < 0.25) {
+            updateDisplay();
+
+            const visual = document.getElementById('serverVisual');
+            visual.style.color = '#00ff66';
+            setTimeout(() => { visual.style.color = '#38bdf8'; }, 80);
+
+            if (Math.random() < 0.25) {
                 const log = logs[Math.floor(Math.random() * logs.length)];
-                document.getElementById('consoleLog').innerHTML += <br>> ${log};
                 const box = document.getElementById('consoleLog');
+                box.innerHTML += <br>> ${log};
                 box.scrollTop = box.scrollHeight;
             }
         }
@@ -455,16 +447,13 @@
                 data -= base.cost;
                 cps += base.power;
                 base.bought = true;
-                document.getElementById(baseBtn1).innerText = bases[1].bought ? "КУПЛЕНО" : "200 Б";
-                document.getElementById(baseBtn2).innerText = bases[2].bought ? "КУПЛЕНО" : "1200 Б";
-                document.getElementById(baseBtn3).innerText = bases[3].bought ? "КУПЛЕНО" : "7500 Б";
                 updateDisplay();
             }
         }
 
-        function setAvatar(name) {
+        function setAvatar(name, element) {
             document.querySelectorAll('.avatar-card').forEach(el => el.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            element.classList.add('selected');
             document.getElementById('playerCallsign').innerText = Оператор: [${name}];
         }
 
@@ -477,21 +466,18 @@
             document.getElementById('dataCount').innerText = Math.floor(data).toLocaleString();
             document.getElementById('cpsCount').innerText = cps.toLocaleString();
             document.getElementById('totalMined').innerText = Math.floor(totalMined).toLocaleString();
-            document.getElementById('clickPowerText').innerText = +${clickPower} байт за клик;
+            document.getElementById('clickPowerText').innerText = Сила клика: +${clickPower} байт;
 
-            // Обновление магазина
             for (let i = 1; i <= 4; i++) {
                 document.getElementById(cost${i}).innerText = items[i].cost.toLocaleString();
                 document.getElementById(count${i}).innerText = items[i].count;
                 document.getElementById(btn${i}).disabled = data < items[i].cost;
             }
 
-            // Кнопка клика
             document.getElementById('clickCost').innerText = clickUpgradeCost.toLocaleString();
             document.getElementById('clickLevel').innerText = clickLevel;
             document.getElementById('clickBtn').disabled = data < clickUpgradeCost;
 
-            // Кнопки баз
             for (let i = 1; i <= 3; i++) {
                 let btn = document.getElementById(baseBtn${i});
                 if (bases[i].bought) {
@@ -504,7 +490,6 @@
             }
         }
 
-        // Пассивный доход
         setInterval(() => {
             if (cps > 0) {
                 data += cps / 10;
@@ -513,6 +498,5 @@
             }
         }, 100);
     </script>
-
 </body>
 </html>
