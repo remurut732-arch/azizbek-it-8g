@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBERCORE: Neural Protocol v3.0</title>
+    <title>CYBERCORE: Neural Protocol</title>
     <style>
         :root {
             --bg-color: #030712;
             --panel-bg: #0f172a;
-            --panel-border: #1e293b;
+            --panel-border: #334155;
             --accent: #00ff66;
-            --accent-glow: rgba(0, 255, 102, 0.25);
+            --accent-glow: rgba(0, 255, 102, 0.3);
             --cyan: #38bdf8;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --danger: #ef4444;
             --warning: #f59e0b;
         }
         * {
@@ -38,13 +37,13 @@
             max-width: 480px;
             background: var(--panel-bg);
             border: 2px solid var(--accent);
-            box-shadow: 0 0 25px var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow);
             border-radius: 14px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 94vh;
-            max-height: 880px;
+            max-height: 850px;
         }
         .header {
             background: #020617;
@@ -56,7 +55,6 @@
             color: var(--accent);
             font-size: 16px;
             margin: 0;
-            text-shadow: 0 0 8px var(--accent-glow);
             letter-spacing: 2px;
         }
         .status-bar {
@@ -76,17 +74,17 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 10px 0;
+            padding: 12px 0;
             font-family: 'Courier New', Courier, monospace;
             font-size: 11px;
             cursor: pointer;
-            transition: all 0.2s;
             border-bottom: 2px solid transparent;
+            font-weight: bold;
         }
         .nav-btn.active {
             color: var(--accent);
             border-bottom: 2px solid var(--accent);
-            background: rgba(0, 255, 102, 0.05);
+            background: rgba(0, 255, 102, 0.08);
         }
         .tab-content {
             flex: 1;
@@ -103,36 +101,47 @@
             border-radius: 10px;
             padding: 12px;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         .data-value {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--accent);
-            margin: 4px 0;
-            text-shadow: 0 0 10px var(--accent-glow);
+            margin: 5px 0;
         }
-        .server-terminal {
+        /* Отдельный визуальный компьютер */
+        .computer-box {
             background: #020617;
             border: 2px solid var(--cyan);
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-            transition: transform 0.05s ease, background 0.1s;
             margin-bottom: 15px;
+            transition: transform 0.05s ease;
         }
-        .server-terminal:active {
-            transform: scale(0.96);
+        .computer-box:active {
+            transform: scale(0.97);
             background: #082f49;
         }
-        .server-ascii {
-            font-size: 13px;
+        .pc-screen {
+            font-size: 12px;
             color: var(--cyan);
-            line-height: 1.2;
-            margin-bottom: 8px;
+            line-height: 1.4;
+            margin-bottom: 10px;
             font-weight: bold;
+        }
+        .click-action-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
         }
         .console-box {
             background: #000;
@@ -143,14 +152,14 @@
             color: var(--cyan);
             height: 75px;
             overflow-y: auto;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         .shop-item {
             background: #0b0f19;
             border: 1px solid var(--panel-border);
             border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -169,16 +178,11 @@
             background: #1e293b;
             color: var(--accent);
             border: 1px solid var(--accent);
-            padding: 6px 12px;
+            padding: 8px 12px;
             border-radius: 6px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 11px;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-        .buy-btn:hover:not(:disabled) {
-            background: var(--accent);
-            color: #000;
         }
         .buy-btn:disabled {
             opacity: 0.4;
@@ -199,7 +203,6 @@
             padding: 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .avatar-card.selected {
             border-color: var(--accent);
@@ -210,7 +213,7 @@
             background: #0b0f19;
             color: var(--text-main);
             border: 1px solid var(--panel-border);
-            padding: 8px;
+            padding: 10px;
             border-radius: 6px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 12px;
@@ -218,7 +221,7 @@
             outline: none;
         }
     </style>
-</head<body>
+</head><body>
     <div class="app-container">
         <div class="header">
             <h1>[ CYBERCORE OS ]</h1>
@@ -229,43 +232,47 @@
         </div>
 
         <div class="nav-tabs">
-            <button class="nav-btn active" id="nav-terminal" onclick="switchTab('terminal')">Терминал</button>
-            <button class="nav-btn" id="nav-shop" onclick="switchTab('shop')">Апгрейды</button>
-            <button class="nav-btn" id="nav-bases" onclick="switchTab('bases')">Серверы</button>
-            <button class="nav-btn" id="nav-profile" onclick="switchTab('profile')">Профиль</button>
+            <button class="nav-btn active" id="btn-tab-terminal" onclick="switchTab('terminal')">Терминал</button>
+            <button class="nav-btn" id="btn-tab-shop" onclick="switchTab('shop')">Апгрейды</button>
+            <button class="nav-btn" id="btn-tab-bases" onclick="switchTab('bases')">Серверы</button>
+            <button class="nav-btn" id="btn-tab-profile" onclick="switchTab('profile')">Профиль</button>
         </div>
 
+        <!-- ВКЛАДКА 1 -->
         <div id="tab-terminal" class="tab-content active">
             <div class="resource-card">
-                <div style="font-size: 11px; color: var(--text-muted);">НАКОПЛЕННЫЕ ДАННЫЕ:</div>
+                <div style="font-size: 11px; color: var(--text-muted);">ДАННЫЕ В БАЗЕ:</div>
                 <div class="data-value"><span id="dataCount">0</span> БАЙТ</div>
-                <div style="font-size: 11px; color: var(--warning);">Поток: +<span id="cpsCount">0</span> байт/сек</div>
+                <div style="font-size: 11px; color: var(--warning);">Прирост: +<span id="cpsCount">0</span> байт/сек</div>
             </div>
 
-            <div class="server-terminal" onclick="collectData()">
-                <div class="server-ascii" id="serverVisual">
-  [=== SERVER ACTIVE ===]<br>
-  [ □□□□□□□□□□□□□ ]<br>
-  👉 НАЖМИ ДЛЯ ВЗЛОМА 👈
+            <!-- Отдельный визуальный компьютер -->
+            <div class="computer-box" onclick="collectData()">
+                <div class="pc-screen">
+                    ┌─────────────────┐<br>
+                    │  [PC-NODE #01]  │<br>
+                    │  STATUS: READY  │<br>
+                    └─────────────────┘
                 </div>
-                <div style="font-size: 11px; color: var(--text-muted);" id="clickPowerText">Сила клика: +1 байт</div>
+                <button class="click-action-btn" id="clickPowerText">ВЗЛОМАТЬ (+1 БАЙТ)</button>
             </div>
 
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">СИСТЕМНЫЙ ЖУРНАЛ:</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">ЛОГ СИСТЕМЫ:</div>
             <div class="console-box" id="consoleLog">
-                > Ядро инициализировано.<br>> Ожидание действий оператора...
+                > Ядро загружено.<br>> Ожидание команд оператора...
             </div>
         </div>
 
+        <!-- ВКЛАДКА 2 -->
         <div id="tab-shop" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">МОДУЛИ И СКРИПТЫ:</div>
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">МОДУЛИ ВЗЛОМА:</div>
             
             <div class="shop-item">
                 <div class="shop-info">
                     <h4>Авто-сканер портов</h4>
                     <p>+1 байт/сек | Куплено: <span id="count1">0</span></p>
                 </div>
-                <button class="buy-btn" id="btn1" onclick="buyItem(1)"><span id="cost1">15</span> Б</button>
+                <button class="buy-btn" id="buy1" onclick="buyItem(1)"><span id="cost1">15</span> Б</button>
             </div>
 
             <div class="shop-item">
@@ -273,7 +280,7 @@
                     <h4>Троянский червь</h4>
                     <p>+6 байт/сек | Куплено: <span id="count2">0</span></p>
                 </div>
-                <button class="buy-btn" id="btn2" onclick="buyItem(2)"><span id="cost2">100</span> Б</button>
+                <button class="buy-btn" id="buy2" onclick="buyItem(2)"><span id="cost2">100</span> Б</button>
             </div>
 
             <div class="shop-item">
@@ -281,7 +288,7 @@
                     <h4>Ботнет-кластер</h4>
                     <p>+30 байт/сек | Куплено: <span id="count3">0</span></p>
                 </div>
-                <button class="buy-btn" id="btn3" onclick="buyItem(3)"><span id="cost3">550</span> Б</button>
+                <button class="buy-btn" id="buy3" onclick="buyItem(3)"><span id="cost3">550</span> Б</button>
             </div>
 
             <div class="shop-item">
@@ -289,7 +296,7 @@
                     <h4>Квантовый процессор</h4>
                     <p>+150 байт/сек | Куплено: <span id="count4">0</span></p>
                 </div>
-                <button class="buy-btn" id="btn4" onclick="buyItem(4)"><span id="cost4">2500</span> Б</button>
+                <button class="buy-btn" id="buy4" onclick="buyItem(4)"><span id="cost4">2500</span> Б</button>
             </div>
 
             <div style="font-size: 12px; color: var(--accent); margin: 15px 0 10px 0;">УСИЛЕНИЕ КЛИКА:</div>
@@ -298,12 +305,13 @@
                     <h4>Продвинутый эксплойт</h4>
                     <p>+1 к силе клика | Уровень: <span id="clickLevel">1</span></p>
                 </div>
-                <button class="buy-btn" id="clickBtn" onclick="buyClickUpgrade()"><span id="clickCost">50</span> Б</button>
+                <button class="buy-btn" id="buyClick" onclick="buyClickUpgrade()"><span id="clickCost">50</span> Б</button>
             </div>
         </div>
 
+        <!-- ВКЛАДКА 3 -->
         <div id="tab-bases" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">АРЕНДА И ПОКУПКА УЗЛОВ:</div>
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 10px;">АРЕНДА СЕРВЕРОВ:</div>
             
             <div class="shop-item">
                 <div class="shop-info">
@@ -330,8 +338,9 @@
             </div>
         </div>
 
+        <!-- ВКЛАДКА 4 -->
         <div id="tab-profile" class="tab-content">
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 8px;">ВЫБЕРИТЕ ПОЗЫВНОЙ:</div>
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 8px;">ВЫБЕРИТЕ АВАТАР:</div>
             <div class="avatar-grid">
                 <div class="avatar-card selected" id="av1" onclick="setAvatar('Phantom', this)">
                     <div style="font-size: 18px;">👤</div>
@@ -361,12 +370,14 @@
             </select>
 
             <div class="resource-card" style="margin-top: 15px; text-align: left; font-size: 11px;">
-                <p><strong>Статистика оператора:</strong></p>
-                <p>Текущий титул: <span id="rankDisplay" style="color: var(--warning);">Скрипт-кидди</span></p>
+                <p><strong>Статистика:</strong></p>
+                <p>Титул: <span id="rankDisplay" style="color: var(--warning);">Скрипт-кидди</span></p>
                 <p>Всего добыто: <span id="totalMined">0</span> байт</p>
             </div>
         </div>
-    </div><script>
+    </div>
+
+    <script>
         let data = 0;
         let totalMined = 0;
         let cps = 0;
@@ -385,13 +396,11 @@
             1: { cost: 200, power: 5, bought: false },
             2: { cost: 1200, power: 40, bought: false },
             3: { cost: 7500, power: 200, bought: false }
-        };
-
-        const logs = [
+        };const logs = [
             "Пакет данных успешно перехвачен...",
-            "Сканирование подсетей корпорации завершено...",
+            "Сканирование портов завершено...",
             "Обход межсетевого экрана выполнен...",
-            "Получен доступ к зашифрованному архиву...",
+            "Доступ к защищенному архиву открыт...",
             "Синхронизация квантовых узлов стабильна..."
         ];
 
@@ -400,7 +409,7 @@
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             
             document.getElementById('tab-' + tabName).classList.add('active');
-            document.getElementById('nav-' + tabName).classList.add('active');
+            document.getElementById('btn-tab-' + tabName).classList.add('active');
         }
 
         function collectData() {
@@ -408,11 +417,7 @@
             totalMined += clickPower;
             updateDisplay();
 
-            const visual = document.getElementById('serverVisual');
-            visual.style.color = '#00ff66';
-            setTimeout(() => { visual.style.color = '#38bdf8'; }, 80);
-
-            if (Math.random() < 0.25) {
+            if (Math.random() < 0.3) {
                 const log = logs[Math.floor(Math.random() * logs.length)];
                 const box = document.getElementById('consoleLog');
                 box.innerHTML += <br>> ${log};
@@ -466,22 +471,22 @@
             document.getElementById('dataCount').innerText = Math.floor(data).toLocaleString();
             document.getElementById('cpsCount').innerText = cps.toLocaleString();
             document.getElementById('totalMined').innerText = Math.floor(totalMined).toLocaleString();
-            document.getElementById('clickPowerText').innerText = Сила клика: +${clickPower} байт;
+            document.getElementById('clickPowerText').innerText = ВЗЛОМАТЬ (+${clickPower} БАЙТ);
 
             for (let i = 1; i <= 4; i++) {
                 document.getElementById(cost${i}).innerText = items[i].cost.toLocaleString();
                 document.getElementById(count${i}).innerText = items[i].count;
-                document.getElementById(btn${i}).disabled = data < items[i].cost;
+                document.getElementById(buy${i}).disabled = data < items[i].cost;
             }
 
             document.getElementById('clickCost').innerText = clickUpgradeCost.toLocaleString();
             document.getElementById('clickLevel').innerText = clickLevel;
-            document.getElementById('clickBtn').disabled = data < clickUpgradeCost;
+            document.getElementById('buyClick').disabled = data < clickUpgradeCost;
 
             for (let i = 1; i <= 3; i++) {
                 let btn = document.getElementById(baseBtn${i});
                 if (bases[i].bought) {
-                    btn.innerText = "АКТИВНО";
+                    btn.innerText = "КУПЛЕНО";
                     btn.disabled = true;
                 } else {
                     btn.innerText = bases[i].cost.toLocaleString() + " Б";
